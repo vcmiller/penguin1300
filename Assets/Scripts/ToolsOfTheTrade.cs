@@ -33,15 +33,7 @@ public class ToolsOfTheTrade : MonoBehaviour {
         return true;
     }
     bool grapple() {
-        if(input.GetPress((SteamVR_Controller.ButtonMask.Trigger))) {
-            RaycastHit hit;
-
-            if (Physics.Raycast(transform.position, transform.forward, out hit)) {
-                if (hit.collider.tag == "PickupObject") {
-                    hit.transform.GetComponent<Rigidbody>().velocity = (transform.position - hit.transform.position);
-                }
-            }
-        }
+        
         return true;
     }
     bool pulse() {
