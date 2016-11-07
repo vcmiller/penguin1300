@@ -22,16 +22,26 @@ public class PenguinsShouldLearnHowToLove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (lover != null) {
-            rb.MovePosition(rb.position + lover.transform.TransformPoint(lover.localLoveSpot) - transform.TransformPoint(localLoveSpot));
+            //rb.MovePosition(rb.position + lover.transform.TransformPoint(lover.localLoveSpot) - transform.TransformPoint(localLoveSpot));
         }
 	}
 
     public void Spheniscidomagnetism() {
 
-        if (potentialLoveSpot.magnitude > 0)
+        if (suitor)
         {
             lover = suitor;
             localLoveSpot = potentialLoveSpot;
+
+            SpringJoint child = gameObject.AddComponent<SpringJoint>();
+
+            child.connectedBody = lover.rb;
+            child.autoConfigureConnectedAnchor = false;
+            child.anchor = Vector3.zero;
+            child.connectedAnchor = Vector3.zero;
+            child.spring = 50;
+            child.damper = 50;
+            child.enableCollision = true;
         }
 
     }
@@ -40,10 +50,10 @@ public class PenguinsShouldLearnHowToLove : MonoBehaviour {
     {
         if (lover != null && localLoveSpot != Vector3.zero)
         {
-            PenguinsShouldLearnHowToLove ex = lover;
+            Destroy(GetComponent<SpringJoint>());
+            
             lover = null;
             localLoveSpot = Vector3.zero;
-            ex.Divorce();
         }
     }
 

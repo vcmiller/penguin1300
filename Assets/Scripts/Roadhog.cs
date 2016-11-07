@@ -6,6 +6,8 @@ public class Roadhog : Tool {
     private Vector3 hookOffset;
     private bool pulling = false;
 
+    private Rigidbody hookedObject;
+
     public override void Start() {
         base.Start();
 
@@ -14,21 +16,19 @@ public class Roadhog : Tool {
     }
 
     void Update() {
-        bool hooked = false;
         Vector3 v = transform.TransformPoint(hookOffset);
 
         LineRenderer rope = transform.FindChild("Rope").GetComponent<LineRenderer>();
         rope.SetPosition(0, v);
         rope.SetPosition(1, hook.transform.position);
 
-        if (input.GetPress((SteamVR_Controller.ButtonMask.Trigger))) {
+
+        if (input.GetPressDown(SteamVR_Controller.ButtonMask.Trigger)) {
             RaycastHit hit;
-
-
+            
             if (Physics.Raycast(v, transform.forward, out hit)) {
                 if (hit.collider.CompareTag("PickupObject")) {
-                    hit.transform.GetComponent<Rigidbody>().velocity = (transform.position - hit.transform.position);
-                    hooked = true;
+                    hookedObject = hit.transform.GetComponent<Rigidbody>();
 
                     if (!pulling) {
                         hook.transform.parent = hit.transform;
@@ -40,7 +40,14 @@ public class Roadhog : Tool {
             }
         }
 
-        if (!hooked) {
+        if (input.GetPressUp(SteamVR_Controller.ButtonMask.Trigger)) {
+            hookedObject = null;
+        }
+        
+
+        if (hookedObject) {
+            hookedObject.velocity = (transform.position - hookedObject.transform.position);
+        } else {
             pulling = false;
             hook.transform.parent = transform;
             hook.transform.localPosition = hookOffset;

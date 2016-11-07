@@ -10,6 +10,7 @@ public class Tool : MonoBehaviour {
     }
 
     public void SetActive(bool b, Transform hand) {
+
         enabled = b;
         GetComponent<Rigidbody>().isKinematic = b;
         transform.parent = hand;

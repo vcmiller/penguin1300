@@ -26,7 +26,7 @@ public class ControllerGrabbyShit : MonoBehaviour {
             rb = currentlyHeld.GetComponent<Rigidbody>();
         }
 
-        if (input.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && currentlyTouching) {
+        if (input.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && currentlyTouching && !currentlyHeld) {
             currentlyHeld = currentlyTouching;
 
             Tool t = currentlyTouching.GetComponent<Tool>();
