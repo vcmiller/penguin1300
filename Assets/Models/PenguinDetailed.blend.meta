@@ -1,22 +1,26 @@
 fileFormatVersion: 2
-guid: d6c3c94ed833ea04a966e858364bf627
-timeCreated: 1478644922
+guid: 288e73aae2e165a46bd745fde93f6ba1
+timeCreated: 1478312664
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
-    100002: PenguinDetailed
-    100004: PenguinRig
+    100002: Armature
+    100004: PenguinDetailed
     100006: root
     100008: wing_l
     100010: wing_r
+    100012: PenguinRig
     400000: //RootNode
-    400002: PenguinDetailed
-    400004: PenguinRig
+    400002: Armature
+    400004: PenguinDetailed
     400006: root
     400008: wing_l
     400010: wing_r
+    400012: PenguinRig
+    2300000: //RootNode
+    3300000: //RootNode
     4300000: PenguinDetailed
     7400000: Default Take
     9500000: //RootNode
