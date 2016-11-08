@@ -12,7 +12,7 @@ public class ControllerGrabbyShit : MonoBehaviour {
     private Vector3 attachPointPenguinSpace;
     private Quaternion attachRotInit;
 
-      float pickupSpeed = 100;
+      float pickupSpeed = 50;
 
     // Use this for initialization
     void Start () {
@@ -26,7 +26,7 @@ public class ControllerGrabbyShit : MonoBehaviour {
             rb = currentlyHeld.GetComponent<Rigidbody>();
         }
 
-        if (input.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && currentlyTouching && !currentlyHeld) {
+        if (input.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) && currentlyTouching && !currentlyHeld && !currentlyTouching.parent) {
             currentlyHeld = currentlyTouching;
 
             Tool t = currentlyTouching.GetComponent<Tool>();
@@ -66,7 +66,7 @@ public class ControllerGrabbyShit : MonoBehaviour {
     void FixedUpdate() {
         if (currentlyHeld && !seanIsATool) {
             //   rb.velocity = (transform.position - currentlyHeld.TransformPoint(attachPointPenguinSpace)) * pickupSpeed;
-            currentlyHeld.GetComponent<Rigidbody>().MoveRotation(Quaternion.RotateTowards(currentlyHeld.rotation, transform.rotation * attachRotInit, Time.fixedDeltaTime * pickupSpeed));
+            currentlyHeld.GetComponent<Rigidbody>().MoveRotation(transform.rotation * attachRotInit);// Quaternion.RotateTowards(currentlyHeld.rotation, transform.rotation * attachRotInit, Time.fixedDeltaTime * pickupSpeed));
         }
     }
 

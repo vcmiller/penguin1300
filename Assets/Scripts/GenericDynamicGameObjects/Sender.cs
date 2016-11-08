@@ -8,8 +8,8 @@ public class Sender : MonoBehaviour {
     public string targetTag;
 	
 	// Update is called once per frame
-	void OnCollisionEnter(Collider col) {
-        if (col.CompareTag(targetTag)) {
+	void OnCollisionEnter(Collision col) {
+        if (col.transform.CompareTag(targetTag)) {
             Send();
         }
     }

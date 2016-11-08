@@ -10,9 +10,15 @@ public class Tool : MonoBehaviour {
     }
 
     public void SetActive(bool b, Transform hand) {
+        if (b && transform.parent) {
+            return;
+        }
 
         enabled = b;
         GetComponent<Rigidbody>().isKinematic = b;
+        foreach (Collider col in GetComponents<Collider>()) {
+            col.enabled = !b;
+        }
         transform.parent = hand;
 
         if (b) {
