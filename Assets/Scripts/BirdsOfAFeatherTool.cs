@@ -35,13 +35,4 @@ public class BirdsOfAFeatherTool : Tool {
         }
     }
 
-    void OnTriggerStay(Collider col) {
-        if (!gripping) {
-            if (col.GetComponent<PenguinsShouldLearnHowToLove>()) {
-                penguin = col.GetComponent<Rigidbody>();
-            } else {
-                penguin = null;
-            }
-        }
-    }
 }
