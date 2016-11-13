@@ -12,16 +12,16 @@ public class BirdsOfAFeatherTool : Tool {
         if (input.GetPressDown((SteamVR_Controller.ButtonMask.Trigger))) {
             if (penguin) {
 
-                penguin.GetComponent<PenguinsShouldLearnHowToLove>().Spheniscidomagnetism();
+                penguin.GetComponent<PenguinLove>().Spheniscidomagnetism();
                 ex = penguin;
                 penguin = null;
             } else {
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.forward, out hit, 4f)) {
 
-                    if (hit.collider.GetComponent<PenguinsShouldLearnHowToLove>()) {
+                    if (hit.collider.GetComponent<PenguinLove>()) {
                         if (ex) {
-                            ex.GetComponent<PenguinsShouldLearnHowToLove>().Divorce();
+                            ex.GetComponent<PenguinLove>().Divorce();
                             ex = null;
                         }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PenguinsShouldFlapTheirWingsAndSoarThroughTheAirMagesticallyLikeAnEaglePilotingABlimp : MonoBehaviour {
+public class PenguinFlap : MonoBehaviour {
     public Transform wingLeft;
     public Transform wingRight;
     public float timescale = 60;

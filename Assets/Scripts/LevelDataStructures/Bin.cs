@@ -19,9 +19,9 @@ public class Bin : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider col) {
-        if (col.GetComponent<PenguinsShouldLearnHowToLove>()) {
-            Destroy(col.GetComponent<PenguinsShouldLearnHowToLove>());
-            Destroy(col.GetComponent<PenguinsShouldStand>());
+        if (col.GetComponent<PenguinLove>()) {
+            Destroy(col.GetComponent<PenguinLove>());
+            Destroy(col.GetComponent<PenguinStand>());
             col.tag = "Default";
 
             penguinCount++;

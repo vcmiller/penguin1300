@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PenguinsShouldLearnHowToLove : MonoBehaviour {
+public class PenguinLove : MonoBehaviour {
 
-    PenguinsShouldLearnHowToLove suitor;
+    PenguinLove suitor;
     Vector3 potentialLoveSpot;
 
-    PenguinsShouldLearnHowToLove lover;
+    PenguinLove lover;
     Vector3 localLoveSpot;
 
     Rigidbody rb;
@@ -59,7 +59,7 @@ public class PenguinsShouldLearnHowToLove : MonoBehaviour {
 
     void OnCollisionStay(Collision col)
     {
-        if (suitor = col.gameObject.GetComponent<PenguinsShouldLearnHowToLove>())
+        if (suitor = col.gameObject.GetComponent<PenguinLove>())
         {
             potentialLoveSpot = transform.InverseTransformPoint(col.contacts[0].point);
         }else

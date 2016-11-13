@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PenguinsShouldStand : MonoBehaviour {
+public class PenguinStand : MonoBehaviour {
 
     const float hella = 6.5f;
 
