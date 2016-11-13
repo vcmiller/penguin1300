@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 
 public class WieldableObject : PhysicsObject {
-    private List<FixedJoint> wields;
-    private List<WieldableObject> wieldedObjects;
     private List<Collider> overlapping;
+    private List<WieldableObject> childWields;
+
+    public bool printTransform = false;
 
 	// Use this for initialization
 	public override void Start () {
         base.Start();
-        wields = new List<FixedJoint>();
-        wieldedObjects = new List<WieldableObject>();
+        childWields = new List<WieldableObject>();
         overlapping = new List<Collider>();
 	}
-	
-	void OnTriggerEnter(Collider other) {
+
+    void Update() {
+        if (printTransform) {
+            print(transform.parent);
+        }
+    }
+
+    void OnTriggerEnter(Collider other) {
         overlapping.Add(other);
     }
 
@@ -23,14 +29,13 @@ public class WieldableObject : PhysicsObject {
     }
 
     void Disconnect() {
-        for (int i = 0; i < wields.Count; i++) {
-            wieldedObjects[i].wields.Remove(wields[i]);
-            wieldedObjects[i].wieldedObjects.Remove(this);
-            Destroy(wields[i]);
+        foreach (WieldableObject obj in childWields) {
+            obj.transform.parent = null;
+            obj.rigidbody.isKinematic = false;
         }
 
-        wields.Clear();
-        wieldedObjects.Clear();
+        transform.parent = null;
+        rigidbody.isKinematic = false;
     }
 
     public override void Pickup(int button) {
@@ -49,29 +54,22 @@ public class WieldableObject : PhysicsObject {
     }
 
     public override void Drop(int button) {
+        base.Drop(button);
+
         if (button == 0) {
             foreach (Collider col in overlapping) {
                 WieldableObject obj = col.GetComponent<WieldableObject>();
                 if (obj) {
-                    FixedJoint wield = gameObject.AddComponent<FixedJoint>();
+                    rigidbody.isKinematic = true;
+                    transform.parent = obj.transform;
+                    obj.childWields.Add(this);
 
-                    wields.Add(wield);
-                    obj.wields.Add(wield);
-                    wieldedObjects.Add(obj);
-                    obj.wieldedObjects.Add(this);
-
-                    wield.connectedBody = obj.rigidbody;
-                    wield.enableCollision = false;
+                    break;
                 }
             }
         }
 
-        base.Drop(button);
-
-        foreach (WieldableObject obj in GetComponentsInChildren<WieldableObject>()) {
-            if (obj != this) {
-                obj.Drop(button);
-            }
-        }
+        print(transform.parent);
+        printTransform = true;
     }
 }
