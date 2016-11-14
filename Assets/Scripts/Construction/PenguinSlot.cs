@@ -6,6 +6,11 @@ public class PenguinSlot : MonoBehaviour {
 
     public Vector3 offset;
     public float radius = 0.5f;
+    public float power {
+        get {
+            return (resident == null) ? 0 : 1 ;
+        }
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +21,6 @@ public class PenguinSlot : MonoBehaviour {
 	void Update () {
 	    if (resident && resident.held) {
             Destroy(resident.GetComponent<FixedJoint>());
-            resident.collider.isTrigger = false;
             resident = null;
         }
 
@@ -29,8 +33,8 @@ public class PenguinSlot : MonoBehaviour {
 
                 FixedJoint joint = resident.gameObject.AddComponent<FixedJoint>();
                 joint.enableCollision = false;
+                joint.enablePreprocessing = false;
                 joint.connectedBody = GetComponent<Rigidbody>();
-                resident.collider.isTrigger = true;
             }
         }
 	}

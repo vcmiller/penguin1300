@@ -4,22 +4,45 @@ using System.Collections.Generic;
 public class WieldableObject : PhysicsObject {
     private List<FixedJoint> wields;
     private List<WieldableObject> wieldedObjects;
-    private List<Collider> overlapping;
+    private List<WieldableObject> overlapping;
+
+    public Color wieldTargetColor = Color.green * 0.2f;
+
+    protected Material material { get; private set; }
 
 	// Use this for initialization
 	public override void Start () {
         base.Start();
         wields = new List<FixedJoint>();
         wieldedObjects = new List<WieldableObject>();
-        overlapping = new List<Collider>();
+        overlapping = new List<WieldableObject>();
+        
+        material = GetComponent<MeshRenderer>().material;
 	}
+
+    void Update() {
+        if (held) {
+            foreach (WieldableObject obj in overlapping) {
+                if (wieldedObjects.IndexOf(obj) == -1) {
+                    obj.material.SetColor("_EmissionColor", wieldTargetColor);
+                }
+            }
+        }
+    }
 	
 	void OnTriggerEnter(Collider other) {
-        overlapping.Add(other);
+        WieldableObject obj = other.GetComponent<WieldableObject>();
+        if (obj && wieldedObjects.IndexOf(obj) == -1) {
+            overlapping.Add(obj);
+        }
     }
 
     void OnTriggerExit(Collider other) {
-        overlapping.Remove(other);
+        WieldableObject obj = other.GetComponent<WieldableObject>();
+        if (obj) {
+            obj.material.SetColor("_EmissionColor", Color.black);
+            overlapping.Remove(obj);
+        }
     }
 
     void Disconnect() {
@@ -49,20 +72,18 @@ public class WieldableObject : PhysicsObject {
     }
 
     public override void Drop(int button) {
-        if (button == 0) {
-            foreach (Collider col in overlapping) {
-                WieldableObject obj = col.GetComponent<WieldableObject>();
-                if (obj) {
-                    FixedJoint wield = gameObject.AddComponent<FixedJoint>();
+        foreach (WieldableObject obj in overlapping) {
+            if (wieldedObjects.IndexOf(obj) == -1) {
+                FixedJoint wield = gameObject.AddComponent<FixedJoint>();
 
-                    wields.Add(wield);
-                    obj.wields.Add(wield);
-                    wieldedObjects.Add(obj);
-                    obj.wieldedObjects.Add(this);
+                wields.Add(wield);
+                obj.wields.Add(wield);
+                wieldedObjects.Add(obj);
+                obj.wieldedObjects.Add(this);
 
-                    wield.connectedBody = obj.rigidbody;
-                    wield.enableCollision = false;
-                }
+                wield.connectedBody = obj.rigidbody;
+                wield.enableCollision = false;
+                wield.enablePreprocessing = false;
             }
         }
 
