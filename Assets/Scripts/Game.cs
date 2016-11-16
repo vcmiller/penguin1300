@@ -41,7 +41,7 @@ public class Game : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         if (!loaded) {
             Load();
             loaded = true;

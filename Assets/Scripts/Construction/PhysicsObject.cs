@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(RigidbodySaver))]
+[RequireComponent(typeof(TransformSaver))]
 public class PhysicsObject : Interactable {
     public Rigidbody rigidbody { get; private set; }
     public Collider collider { get; private set; }
@@ -14,10 +16,9 @@ public class PhysicsObject : Interactable {
     protected int currentButton;
     
     public bool canPickup = true;
-    public bool triggerWhenHeld = true;
 
     // Use this for initialization
-    public virtual void Start () {
+    public virtual void Awake () {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
         colliders = GetComponents<Collider>();
@@ -50,22 +51,10 @@ public class PhysicsObject : Interactable {
     }
 
     public virtual void Pickup(int button) {
-        rigidbody.isKinematic = true;
         held = true;
-        if (triggerWhenHeld) {
-            foreach (Collider collider in colliders) {
-                collider.isTrigger = true;
-            }
-        }
     }
 
     public virtual void Drop(int button) {
-        rigidbody.isKinematic = false;
         held = false;
-        if (triggerWhenHeld) {
-            foreach (Collider collider in colliders) {
-                collider.isTrigger = false;
-            }
-        }
     }
 }

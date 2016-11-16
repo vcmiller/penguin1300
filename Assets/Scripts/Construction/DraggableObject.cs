@@ -41,21 +41,10 @@ public class DraggableObject : PhysicsObject {
         if (!gravityWhenHeld) {
             rigidbody.useGravity = false;
         }
-
-        if (triggerWhenHeld) {
-            foreach (Collider collider in colliders) {
-                collider.isTrigger = true;
-            }
-        }
     }
 
     public override void Drop(int button) {
         held = false;
         rigidbody.useGravity = true;
-        if (triggerWhenHeld) {
-            foreach (Collider collider in colliders) {
-                collider.isTrigger = false;
-            }
-        }
     }
 }

@@ -9,7 +9,7 @@ public class Region {
 
     public string scene;
     public string[] levels;
-    public bool[] completions {private set; get; }
+    public bool[] completions;
 
     public string NextLevel(string level) {
         int curIndex = System.Array.IndexOf(levels, level);

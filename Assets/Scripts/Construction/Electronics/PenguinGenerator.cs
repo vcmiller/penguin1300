@@ -9,12 +9,14 @@ public class PenguinGenerator : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        ps = GetComponent<PenguinSlot>();
+        ps = GetComponentInChildren<PenguinSlot>();
         op = GetComponentInChildren<OutputPort>();
     }
 
     // Update is called once per frame
     void Update() {
-        op.power = maxOutput * ps.power;
+        if (op) {
+            op.power = maxOutput * ps.power;
+        }
     }
 }
