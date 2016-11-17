@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class OutputPort : MonoBehaviour {
+
+public class OutputPort : Port {
+
 
 	private Provider pv;
     public float power { 
@@ -9,10 +11,12 @@ public class OutputPort : MonoBehaviour {
 			return pv.power;
 		}
 	}
-    public Link wire { set; get; }
 
 	public void Start(){
 		pv = transform.parent.GetComponent<Provider> ();
 	}
 
+    public override bool canWireTo(Port port) {
+        return port is InputPort;
+    }
 }

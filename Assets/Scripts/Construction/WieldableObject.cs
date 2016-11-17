@@ -11,8 +11,8 @@ public class WieldableObject : PhysicsObject {
     protected Material material { get; private set; }
 
 	// Use this for initialization
-	public override void Start () {
-        base.Start();
+	public override void Awake () {
+        base.Awake();
         wields = new List<FixedJoint>();
         wieldedObjects = new List<WieldableObject>();
         overlapping = new List<WieldableObject>();
@@ -56,6 +56,18 @@ public class WieldableObject : PhysicsObject {
         wieldedObjects.Clear();
     }
 
+    void PropagateKinematic(bool kinematic) {
+        if (kinematic == rigidbody.isKinematic) {
+            return;
+        }
+
+        rigidbody.isKinematic = kinematic;
+
+        foreach (WieldableObject obj in wieldedObjects) {
+            obj.PropagateKinematic(kinematic);
+        }
+    }
+
     public override void Pickup(int button) {
         if (button == 0) {
             Disconnect();
@@ -63,6 +75,9 @@ public class WieldableObject : PhysicsObject {
 
         base.Pickup(button);
         overlapping.Clear();
+
+        PropagateKinematic(false);
+        rigidbody.isKinematic = true;
 
         foreach (WieldableObject obj in GetComponentsInChildren<WieldableObject>()) {
             if (obj != this) {
@@ -72,21 +87,25 @@ public class WieldableObject : PhysicsObject {
     }
 
     public override void Drop(int button) {
-        foreach (WieldableObject obj in overlapping) {
-            if (wieldedObjects.IndexOf(obj) == -1) {
-                FixedJoint wield = gameObject.AddComponent<FixedJoint>();
+        if (!PausePlayManager.instance.running) {
+            PropagateKinematic(true);
 
-                wields.Add(wield);
-                obj.wields.Add(wield);
-                wieldedObjects.Add(obj);
-                obj.wieldedObjects.Add(this);
+            foreach (WieldableObject obj in overlapping) {
+                if (wieldedObjects.IndexOf(obj) == -1) {
+                    FixedJoint wield = gameObject.AddComponent<FixedJoint>();
 
-                wield.connectedBody = obj.rigidbody;
-                wield.enableCollision = false;
-                wield.enablePreprocessing = false;
+                    wields.Add(wield);
+                    obj.wields.Add(wield);
+                    wieldedObjects.Add(obj);
+                    obj.wieldedObjects.Add(this);
+
+                    wield.connectedBody = obj.rigidbody;
+                    wield.enableCollision = false;
+                    wield.enablePreprocessing = false;
+                }
             }
         }
-
+        
         base.Drop(button);
 
         foreach (WieldableObject obj in GetComponentsInChildren<WieldableObject>()) {

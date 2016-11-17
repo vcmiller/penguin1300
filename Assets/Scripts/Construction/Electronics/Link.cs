@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Link : MonoBehaviour {
 
-    public InputPort ip { set; get; }
-    public OutputPort op { set; get; }
+    public InputPort ip;
+    public OutputPort op;
 
     public float power {
         get {

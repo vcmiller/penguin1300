@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(PenguinSlotSaver))]
 public class PenguinSlot : MonoBehaviour {
-    public DraggableObject resident { get; private set; }
+    public DraggableObject resident { get; set; }
 
     public Vector3 offset;
     public float radius = 0.5f;

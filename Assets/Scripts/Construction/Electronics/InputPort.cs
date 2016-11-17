@@ -1,22 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class InputPort : MonoBehaviour {
+public class InputPort : Port {
 
     public float power {
         get {
-            return wire.power;
+            return wire ? wire.power : 0;
         }
     }
-    public Link wire { set; get; }
 
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public override bool canWireTo(Port port) {
+        return port is OutputPort;
+    }
 }

@@ -1,32 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Tool : MonoBehaviour {
-    protected SteamVR_TrackedObject controller;
-    protected SteamVR_Controller.Device input { get { return SteamVR_Controller.Input((int)controller.index); } }
+public abstract class Tool : MonoBehaviour {
+    protected Controller controller { get; private set; }
+    protected Renderer[] meshes { get; private set; }
 
-    public virtual void Start() {
+    public bool active {
+        get {
+            return isActive;
+        }
+
+        set {
+            if (value != isActive) {
+                isActive = value;
+                OnActiveChange(value);
+                enabled = value;
+            }
+
+            foreach (Renderer mesh in meshes) {
+                mesh.enabled = value;
+            }
+        }
+    }
+
+    private bool isActive = false;
+
+    public virtual void Awake() {
+        controller = GetComponentInParent<Controller>();
+        meshes = GetComponentsInChildren<Renderer>();
+
+        active = false;
+        OnActiveChange(false);
         enabled = false;
     }
 
-    public void SetActive(bool b, Transform hand) {
-        if (b && transform.parent) {
-            return;
-        }
+    protected virtual void OnActiveChange(bool active) {
 
-        enabled = b;
-        GetComponent<Rigidbody>().isKinematic = b;
-        foreach (Collider col in GetComponents<Collider>()) {
-            col.enabled = !b;
-        }
-        transform.parent = hand;
-
-        if (b) {
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
-            controller = hand.GetComponent<SteamVR_TrackedObject>();
-        } else {
-            controller = null;
-        }
     }
 }
