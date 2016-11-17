@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Merger : MonoBehaviour {
+public class Merger : Provider {
 
     public InputPort[] ips { private set; get; }
-    public OutputPort op { private set; get; }
+
+	public override float power {
+		get {
+			float pow = 0;
+			foreach(InputPort ip in ips){
+				pow += ip.power;
+			}
+			return pow;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
         ips = GetComponentsInChildren<InputPort>();
-        op = GetComponentInChildren<OutputPort>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        op.power = 0;
-        foreach(InputPort ip in ips) {
-            op.power += ip.power;
-        }
-	}
+ 
 }

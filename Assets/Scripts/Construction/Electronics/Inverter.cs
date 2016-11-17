@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Inverter : MonoBehaviour {
+public class Inverter : Provider {
 
     public InputPort ip { private set; get; }
-    public OutputPort op { private set; get; }
+	public override float power {
+		get{ 
+			return (Time.time % period > period * duty) ? ip.power : 0;
+		}
+	}
 
     public float period;
     public float duty;
@@ -12,11 +16,7 @@ public class Inverter : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         ip = GetComponentInChildren<InputPort>();
-        op = GetComponentInChildren<OutputPort>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        op.power = (Time.time % period > period * duty) ? ip.power : 0;
-	}
+
 }

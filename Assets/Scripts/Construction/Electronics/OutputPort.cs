@@ -3,7 +3,16 @@ using System.Collections;
 
 public class OutputPort : MonoBehaviour {
 
-    public float power { set; get; }
+	private Provider pv;
+    public float power { 
+		get {
+			return pv.power;
+		}
+	}
     public Link wire { set; get; }
+
+	public void Start(){
+		pv = transform.parent.GetComponent<Provider> ();
+	}
 
 }
