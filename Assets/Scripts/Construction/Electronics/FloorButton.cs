@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FloorButton : MonoBehaviour {
+public class FloorButton : Provider {
     public OutputPort output { get; private set; }
     public Transform button { get; private set; }
+	public float powerOutput = 1;
 
-    public float power = 1;
+	public override float power {
+		get { 
+			return pressed ? powerOutput : 0;
+		}
+	}
 
     private bool pressed;
 
@@ -18,8 +23,6 @@ public class FloorButton : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         button.localPosition = Vector3.MoveTowards(button.localPosition, pressed ? new Vector3(0, .1f, 0) : new Vector3(0, .5f, 0), Time.deltaTime);
-
-        output.power = pressed ? power : 0;
 	}
 
     void OnTriggerStay(Collider other) {
