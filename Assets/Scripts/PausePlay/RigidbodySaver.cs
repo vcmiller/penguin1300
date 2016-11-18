@@ -9,21 +9,25 @@ public class RigidbodySaver : StatusSaver {
 
     public bool modifyCollidersAndKinematic = true;
 
+    public RigidbodyConstraints constraints;
+
 	// Use this for initialization
 	void Awake () {
         physicsObject = GetComponent<PhysicsObject>();
         kinematic = GetComponent<Rigidbody>().isKinematic;
+        constraints = physicsObject.rigidbody.constraints;
 	}
 
     public override void Save() {
         physicsObject.rigidbody.velocity = Vector3.zero;
         physicsObject.rigidbody.angularVelocity = Vector3.zero;
-        
+
         if (modifyCollidersAndKinematic) {
-            physicsObject.rigidbody.isKinematic = kinematic;
+            //physicsObject.rigidbody.constraints = constraints;
+            physicsObject.rigidbody.isKinematic = false;
 
             foreach (Collider collider in GetComponents<Collider>()) {
-                collider.isTrigger = false;
+                //collider.isTrigger = false;
             }
         }
     }
@@ -33,10 +37,11 @@ public class RigidbodySaver : StatusSaver {
         physicsObject.rigidbody.angularVelocity = Vector3.zero;
 
         if (modifyCollidersAndKinematic) {
+            //physicsObject.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             physicsObject.rigidbody.isKinematic = true;
 
             foreach (Collider collider in GetComponents<Collider>()) {
-                collider.isTrigger = true;
+                //collider.isTrigger = true;
             }
         }
     }

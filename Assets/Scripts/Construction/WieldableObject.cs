@@ -18,7 +18,35 @@ public class WieldableObject : PhysicsObject {
         overlapping = new List<WieldableObject>();
         
         material = GetComponent<MeshRenderer>().material;
-	}
+    }
+
+    private void CreateTriggers() {
+        foreach (Collider c in GetComponents<Collider>()) {
+            System.Type type = c.GetType();
+            Collider copy = (Collider)gameObject.AddComponent(type);
+
+            System.Reflection.FieldInfo[] fields = type.GetFields();
+            foreach (System.Reflection.FieldInfo field in fields) {
+                field.SetValue(copy, field.GetValue(c));
+            }
+
+            if (copy is MeshCollider) {
+                MeshCollider mc = (MeshCollider)copy;
+                mc.convex = true;
+            }
+
+            copy.isTrigger = true;
+        }
+    }
+
+    private void DestroyTriggers() {
+
+        foreach (Collider c in GetComponents<Collider>()) {
+            if (c.isTrigger) {
+                Destroy(c);
+            }
+        }
+    }
 
     void Update() {
         if (held) {
@@ -29,19 +57,21 @@ public class WieldableObject : PhysicsObject {
             }
         }
     }
-	
-	void OnTriggerEnter(Collider other) {
-        WieldableObject obj = other.GetComponent<WieldableObject>();
-        if (obj && wieldedObjects.IndexOf(obj) == -1) {
+
+    void OnTriggerEnter(Collider col) {
+        WieldableObject obj = col.GetComponent<WieldableObject>();
+        if (obj && !overlapping.Contains(obj)) {
             overlapping.Add(obj);
+            print("Enter");
         }
     }
 
-    void OnTriggerExit(Collider other) {
-        WieldableObject obj = other.GetComponent<WieldableObject>();
+    void OnTriggerExit(Collider col) {
+        WieldableObject obj = col.GetComponent<WieldableObject>();
         if (obj) {
             obj.material.SetColor("_EmissionColor", Color.black);
             overlapping.Remove(obj);
+            print("Exit");
         }
     }
 
@@ -56,15 +86,44 @@ public class WieldableObject : PhysicsObject {
         wieldedObjects.Clear();
     }
 
-    void PropagateKinematic(bool kinematic) {
-        if (kinematic == rigidbody.isKinematic) {
-            return;
-        }
+    void PropagatePickup(int button, bool isHeld) {
+        if (held != isHeld) {
+            
+            held = isHeld;
 
-        rigidbody.isKinematic = kinematic;
+            if (held) {
+                CreateTriggers();
+            } else {
+                DestroyTriggers();
+            }
 
-        foreach (WieldableObject obj in wieldedObjects) {
-            obj.PropagateKinematic(kinematic);
+            foreach (WieldableObject obj in GetComponentsInChildren<WieldableObject>()) {
+                if (obj != this) {
+                    if (isHeld) {
+                        obj.Pickup(button);
+                    } else {
+                        obj.Drop(button);
+                    }
+                }
+            }
+            
+            Controller interactor = transform.root.GetComponent<PhysicsObject>().interactor;
+            
+            foreach (WieldableObject obj in wieldedObjects) {
+                WieldableObject obj2 = obj.transform.root.GetComponent<WieldableObject>();
+                if (obj2 && obj2.canPickup) {
+                    obj2.currentButton = button;
+
+                    if (interactor) {
+                        obj2.localPickupPosition = interactor.transform.InverseTransformPoint(obj2.transform.position);
+                        obj2.localPickupRotation = Quaternion.Inverse(interactor.transform.rotation) * obj2.transform.rotation;
+                    }
+
+                    obj2.interactor = interactor;
+
+                    obj2.PropagatePickup(button, isHeld);
+                }
+            }
         }
     }
 
@@ -73,23 +132,14 @@ public class WieldableObject : PhysicsObject {
             Disconnect();
         }
 
-        base.Pickup(button);
-        overlapping.Clear();
-
-        PropagateKinematic(false);
-        rigidbody.isKinematic = true;
-
-        foreach (WieldableObject obj in GetComponentsInChildren<WieldableObject>()) {
-            if (obj != this) {
-                obj.Pickup(button);
-            }
-        }
+        PropagatePickup(button, true);
     }
 
     public override void Drop(int button) {
-        if (!PausePlayManager.instance.running) {
-            PropagateKinematic(true);
+        PropagatePickup(button, false);
 
+        if (!PausePlayManager.instance.running) {
+            
             foreach (WieldableObject obj in overlapping) {
                 if (wieldedObjects.IndexOf(obj) == -1) {
                     FixedJoint wield = gameObject.AddComponent<FixedJoint>();
@@ -102,16 +152,17 @@ public class WieldableObject : PhysicsObject {
                     wield.connectedBody = obj.rigidbody;
                     wield.enableCollision = false;
                     wield.enablePreprocessing = false;
+                    
                 }
             }
         }
-        
-        base.Drop(button);
 
-        foreach (WieldableObject obj in GetComponentsInChildren<WieldableObject>()) {
-            if (obj != this) {
-                obj.Drop(button);
-            }
+        foreach (WieldableObject obj in overlapping) {
+
+            obj.material.SetColor("_EmissionColor", Color.black);
         }
+
+        overlapping.Clear();
+
     }
 }

@@ -14,14 +14,14 @@ public class TransformSaver : StatusSaver {
         if (saved) {
             transform.parent = savedParent;
             transform.localScale = savedScale;
-            transform.rotation = savedRotation;
-            transform.position = savedPosition;
+            transform.localRotation = savedRotation;
+            transform.localPosition = savedPosition;
         }
     }
 
     public override void Save() {
-        savedPosition = transform.position;
-        savedRotation = transform.rotation;
+        savedPosition = transform.localPosition;
+        savedRotation = transform.localRotation;
         savedScale = transform.localScale;
         savedParent = transform.parent;
 
