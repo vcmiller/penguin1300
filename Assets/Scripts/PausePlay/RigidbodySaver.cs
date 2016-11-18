@@ -9,13 +9,10 @@ public class RigidbodySaver : StatusSaver {
 
     public bool modifyCollidersAndKinematic = true;
 
-    public RigidbodyConstraints constraints;
-
 	// Use this for initialization
 	void Awake () {
         physicsObject = GetComponent<PhysicsObject>();
         kinematic = GetComponent<Rigidbody>().isKinematic;
-        constraints = physicsObject.rigidbody.constraints;
 	}
 
     public override void Save() {

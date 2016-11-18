@@ -15,12 +15,19 @@ public class Spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Vector3.Distance (transform.position, spawned.position) > leashDistance) {
-			Spawn ();
-		}
+        if (!PausePlayManager.instance.running) {
+            if (Vector3.Distance(transform.position, spawned.position) > leashDistance) {
+                Spawn();
+            }
+        }
+		
 	}
 
 	void Spawn(){
 		spawned = ( (GameObject)Instantiate (toSpawn, transform.position, Quaternion.identity) ).transform;
+
+        foreach (StatusSaver saver in spawned.GetComponentsInChildren<StatusSaver>()) {
+            saver.Load();
+        }
 	}
 }
