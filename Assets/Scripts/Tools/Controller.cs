@@ -12,7 +12,13 @@ public class Controller : MonoBehaviour {
 
     public int toolIndex = 0;
 
-    public ExpirationTimer restartLevelTimer;
+    float restartTimer = 0;
+    public float timeToRestart = 2;
+    public float restartProgress {
+        get {
+            return restartTimer / timeToRestart;
+        }
+    }
 
     
     // Use this for initialization
@@ -61,13 +67,12 @@ public class Controller : MonoBehaviour {
             if (isTeleporting) {
                 Teleport();
                 isTeleporting = false;
-                TeleportTarget.show = false;
+                TeleportView.show = false;
             }
         }
 
         bool canReset = true;
         if (input.GetPressDown(SteamVR_Controller.ButtonMask.ApplicationMenu)) {
-            restartLevelTimer.Set();
             canReset = false;
 
             if (PausePlayManager.instance.running) {
@@ -77,13 +82,20 @@ public class Controller : MonoBehaviour {
             }
         }
 
-        if (input.GetPress(SteamVR_Controller.ButtonMask.ApplicationMenu) && restartLevelTimer.Expired && canReset) {
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+        if (input.GetPress(SteamVR_Controller.ButtonMask.ApplicationMenu)) {
+            restartTimer += Time.deltaTime;
+        } else {
+            restartTimer = 0;
+        }
+
+        if (restartTimer > timeToRestart) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            restartTimer = 0;
         }
 
         UpdateLineRenderer();
         if (isTeleporting) {
-            TeleportTarget.show = true;
+            TeleportView.show = true;
         }
     }
 
@@ -92,8 +104,14 @@ public class Controller : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.forward, out hit)) {
             if (hit.collider.CompareTag("Teleport")) {
                 transform.root.position = hit.point;
+            }else if (hit.collider.GetComponent<Sign>()) {
+                UseSign(hit.collider.GetComponent<Sign>());
             }
         }
+    }
+
+    void UseSign(Sign s) {
+        s.Go();
     }
 
     void UpdateLineRenderer() {

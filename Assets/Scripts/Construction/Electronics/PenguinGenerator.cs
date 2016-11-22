@@ -13,7 +13,7 @@ public class PenguinGenerator : Provider {
 
     // Use this for initialization
     void Start() {
-        ps = GetComponent<PenguinSlot>();
+        ps = GetComponentInChildren<PenguinSlot>();
     }
 
  

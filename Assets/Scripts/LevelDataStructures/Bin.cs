@@ -22,7 +22,6 @@ public class Bin : MonoBehaviour {
         if (col.GetComponent<PenguinLove>()) {
             Destroy(col.GetComponent<PenguinLove>());
             Destroy(col.GetComponent<PenguinStand>());
-            col.tag = "Default";
 
             penguinCount++;
             if (penguinCount >= youMustProvideAdditionalPenguins) {

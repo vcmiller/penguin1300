@@ -9,7 +9,7 @@ public class PenguinSlot : MonoBehaviour {
     public float radius = 0.5f;
     public float power {
         get {
-            return (resident == null) ? 0 : 1 ;
+            return (!resident) ? 0 : 1 ;
         }
     }
 

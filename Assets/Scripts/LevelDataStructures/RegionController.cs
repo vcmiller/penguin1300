@@ -4,16 +4,25 @@ using System.Collections;
 public class RegionController : MonoBehaviour {
 
    // public GameObject penguin;
-    RegionPenguin[] penguins;
+    Sign[] signs;
+
+    void Start() {
+        Invoke("Setup", 1.0f);
+    }
 
 	// Use this for initialization
-	void Start () {
+	void Setup () {
         print(Game.instance);
         print(Game.instance.region);
-        penguins = FindObjectsOfType<RegionPenguin>();
-        for(int i = 0; i < penguins.Length && i < Game.instance.region.levels.Length; i++) {
-            penguins[i].init(Game.instance.region.levels[i], Game.instance.region.completions[i]);
-        }     
+        signs = FindObjectsOfType<Sign>();
+        for (int i = 0; i < signs.Length && i < Game.instance.region.levels.Length; i++) {
+            int index = signs[i].index;
+            if (index >= 0) {
+                signs[i].init(Game.instance.region.levels[index], Game.instance.region.completions[index]);
+            } else {
+                signs[i].init(Game.instance.hubScene, true);
+            }
+        }
    	}
 
 }

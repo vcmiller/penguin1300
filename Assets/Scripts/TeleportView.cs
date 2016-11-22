@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TeleportTarget : MonoBehaviour {
+public class TeleportView : MonoBehaviour {
     public static bool show { get; set; }
 
     public MeshRenderer mesh { get; private set; }
