@@ -9,10 +9,14 @@ public class RigidbodySaver : StatusSaver {
 
     public bool modifyCollidersAndKinematic = true;
 
+    int startLayer;
+
 	// Use this for initialization
 	void Awake () {
         physicsObject = GetComponent<PhysicsObject>();
         kinematic = GetComponent<Rigidbody>().isKinematic;
+
+        startLayer = gameObject.layer;
 	}
 
     public override void Save() {
@@ -24,7 +28,7 @@ public class RigidbodySaver : StatusSaver {
             physicsObject.rigidbody.isKinematic = false;
 
             foreach (Collider collider in GetComponents<Collider>()) {
-                //collider.isTrigger = false;
+                gameObject.layer = startLayer;
             }
         }
     }
@@ -38,7 +42,7 @@ public class RigidbodySaver : StatusSaver {
             physicsObject.rigidbody.isKinematic = true;
 
             foreach (Collider collider in GetComponents<Collider>()) {
-                //collider.isTrigger = true;
+                gameObject.layer = LayerMask.NameToLayer("PauseMode");
             }
         }
     }

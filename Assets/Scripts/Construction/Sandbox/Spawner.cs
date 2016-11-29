@@ -15,11 +15,11 @@ public class Spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!PausePlayManager.instance.running) {
-            if (Vector3.Distance(transform.position, spawned.position) > leashDistance) {
-                Spawn();
-            }
+        //if (!PausePlayManager.instance.running) {
+        if (!spawned || Vector3.Distance(transform.position, spawned.position) > leashDistance) {
+            Spawn();
         }
+        //}
 		
 	}
 
