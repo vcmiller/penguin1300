@@ -70,9 +70,12 @@ public class WiringTool : Tool {
     public Port getPort() {
         foreach (Collider col in Physics.OverlapSphere(transform.position, .2f)) {
             Port p = col.GetComponent<Port>();
-            if ((p && startPort == null) || (p != startPort && p.canWireTo(startPort))) {
-                return p;
+            if (p) {
+                if (startPort == null || (p != startPort && p.canWireTo(startPort))) {
+                    return p;
+                }
             }
+            
         }
 
         return null;

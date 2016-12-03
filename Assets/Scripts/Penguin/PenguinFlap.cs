@@ -24,7 +24,7 @@ public class PenguinFlap : MonoBehaviour {
             deactivateFlap.Set();
         }
 
-        if (!deactivateFlap.Expired || draggable.held) {
+        if (!deactivateFlap.Expired || draggable.held || !GetComponent<PenguinStand>().grounded) {
             wingLeft.localEulerAngles = new Vector3(Mathf.Sin(Time.time * timescale) * 20 - 20, -90, 90);
             wingRight.localEulerAngles = new Vector3(-Mathf.Sin(Time.time * timescale) * 20 + 20, -90, -90);
         } else {

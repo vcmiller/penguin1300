@@ -8,12 +8,12 @@ public class OutputPort : Port {
 	private Provider pv;
     public float power { 
 		get {
-			return pv.power;
+            return pv.power;
 		}
 	}
 
 	public void Start(){
-		pv = transform.parent.GetComponent<Provider> ();
+		pv = transform.root.GetComponentInChildren<Provider> ();
 	}
 
     public override bool canWireTo(Port port) {

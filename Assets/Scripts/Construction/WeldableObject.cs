@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class WieldableObject : PhysicsObject {
-    private List<FixedJoint> wields;
-    private List<WieldableObject> wieldedObjects;
-    private List<WieldableObject> overlapping;
+public class WeldableObject : PhysicsObject {
+    public List<FixedJoint> welds { get; private set; }
+    public List<WeldableObject> weldedObjects { get; private set; }
+    public List<WeldableObject> overlapping { get; private set; }
 
     public Color wieldTargetColor = Color.green * 0.2f;
 
@@ -13,9 +13,9 @@ public class WieldableObject : PhysicsObject {
 	// Use this for initialization
 	public override void Awake () {
         base.Awake();
-        wields = new List<FixedJoint>();
-        wieldedObjects = new List<WieldableObject>();
-        overlapping = new List<WieldableObject>();
+        welds = new List<FixedJoint>();
+        weldedObjects = new List<WeldableObject>();
+        overlapping = new List<WeldableObject>();
         
         material = GetComponent<MeshRenderer>().material;
     }
@@ -50,8 +50,8 @@ public class WieldableObject : PhysicsObject {
 
     void Update() {
         if (held) {
-            foreach (WieldableObject obj in overlapping) {
-                if (wieldedObjects.IndexOf(obj) == -1) {
+            foreach (WeldableObject obj in overlapping) {
+                if (weldedObjects.IndexOf(obj) == -1) {
                     obj.material.SetColor("_EmissionColor", wieldTargetColor);
                 }
             }
@@ -59,7 +59,7 @@ public class WieldableObject : PhysicsObject {
     }
 
     void OnTriggerEnter(Collider col) {
-        WieldableObject obj = col.GetComponent<WieldableObject>();
+        WeldableObject obj = col.GetComponent<WeldableObject>();
         if (obj && !overlapping.Contains(obj)) {
             overlapping.Add(obj);
             print("Enter");
@@ -67,7 +67,7 @@ public class WieldableObject : PhysicsObject {
     }
 
     void OnTriggerExit(Collider col) {
-        WieldableObject obj = col.GetComponent<WieldableObject>();
+        WeldableObject obj = col.GetComponent<WeldableObject>();
         if (obj) {
             obj.material.SetColor("_EmissionColor", Color.black);
             overlapping.Remove(obj);
@@ -76,14 +76,14 @@ public class WieldableObject : PhysicsObject {
     }
 
     void Disconnect() {
-        for (int i = 0; i < wields.Count; i++) {
-            wieldedObjects[i].wields.Remove(wields[i]);
-            wieldedObjects[i].wieldedObjects.Remove(this);
-            Destroy(wields[i]);
+        for (int i = 0; i < welds.Count; i++) {
+            weldedObjects[i].welds.Remove(welds[i]);
+            weldedObjects[i].weldedObjects.Remove(this);
+            Destroy(welds[i]);
         }
 
-        wields.Clear();
-        wieldedObjects.Clear();
+        welds.Clear();
+        weldedObjects.Clear();
     }
 
     void PropagatePickup(int button, bool isHeld) {
@@ -97,7 +97,7 @@ public class WieldableObject : PhysicsObject {
                 DestroyTriggers();
             }
 
-            foreach (WieldableObject obj in GetComponentsInChildren<WieldableObject>()) {
+            foreach (WeldableObject obj in GetComponentsInChildren<WeldableObject>()) {
                 if (obj != this) {
                     if (isHeld) {
                         obj.Pickup(button);
@@ -109,8 +109,8 @@ public class WieldableObject : PhysicsObject {
             
             Controller interactor = transform.root.GetComponent<PhysicsObject>().interactor;
             
-            foreach (WieldableObject obj in wieldedObjects) {
-                WieldableObject obj2 = obj.transform.root.GetComponent<WieldableObject>();
+            foreach (WeldableObject obj in weldedObjects) {
+                WeldableObject obj2 = obj.transform.root.GetComponent<WeldableObject>();
                 if (obj2 && obj2.canPickup) {
                     obj2.currentButton = button;
 
@@ -140,14 +140,14 @@ public class WieldableObject : PhysicsObject {
 
         if (!PausePlayManager.instance.running) {
             
-            foreach (WieldableObject obj in overlapping) {
-                if (wieldedObjects.IndexOf(obj) == -1) {
+            foreach (WeldableObject obj in overlapping) {
+                if (weldedObjects.IndexOf(obj) == -1) {
                     FixedJoint wield = gameObject.AddComponent<FixedJoint>();
 
-                    wields.Add(wield);
-                    obj.wields.Add(wield);
-                    wieldedObjects.Add(obj);
-                    obj.wieldedObjects.Add(this);
+                    welds.Add(wield);
+                    obj.welds.Add(wield);
+                    weldedObjects.Add(obj);
+                    obj.weldedObjects.Add(this);
 
                     wield.connectedBody = obj.rigidbody;
                     wield.enableCollision = false;
@@ -157,7 +157,7 @@ public class WieldableObject : PhysicsObject {
             }
         }
 
-        foreach (WieldableObject obj in overlapping) {
+        foreach (WeldableObject obj in overlapping) {
 
             obj.material.SetColor("_EmissionColor", Color.black);
         }

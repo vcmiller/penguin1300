@@ -13,7 +13,7 @@ public class ReversingMotor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         ax = GetComponent<Axle>();
-        ip = GetComponentInChildren<InputPort>();
+        ip = transform.root.GetComponentInChildren<InputPort>();
     }
 	
 	// Update is called once per frame

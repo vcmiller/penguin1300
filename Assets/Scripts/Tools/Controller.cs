@@ -20,6 +20,12 @@ public class Controller : MonoBehaviour {
         }
     }
 
+    public Tool curTool {
+        get {
+            return tools[toolIndex];
+        }
+    }
+
     
     // Use this for initialization
     void Start () {
@@ -28,14 +34,14 @@ public class Controller : MonoBehaviour {
 
         tools = new List<Tool>(GetComponentsInChildren<Tool>());
 
-        tools[toolIndex].active = true;
+        curTool.active = true;
     }
 	
 	// Update is called once per frame
 	void Update () {
         int oldIndex = toolIndex;
 
-        if (input.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
+        if (curTool.teleportAllowed && input.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad)) {
             float x = input.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0).x;
             float y = input.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis0).y;
 
@@ -45,7 +51,7 @@ public class Controller : MonoBehaviour {
                 toolIndex++;
             } else if (x < -telRange) {
                 toolIndex--;
-            } else {
+            } else if (curTool.teleportAllowed) {
                 isTeleporting = true;
             }
 
@@ -58,7 +64,7 @@ public class Controller : MonoBehaviour {
                 }
 
                 tools[oldIndex].active = false;
-                tools[toolIndex].active = true;
+                curTool.active = true;
              }
             
         }
