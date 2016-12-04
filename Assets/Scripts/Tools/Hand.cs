@@ -14,6 +14,8 @@ public class Hand : Tool {
     public float thumbOpenAngle = 150;
     public float thumbClosedAngle = 170;
 
+    public float pickupRange = 0.1f;
+
     public bool inHand() {
         return currentInteraction != null;
     }
@@ -26,7 +28,7 @@ public class Hand : Tool {
 
     public Interactable getInteractible() {
         foreach (Collider col in Physics.OverlapSphere(transform.position, .1f)) {
-            Interactable i = col.GetComponent<Interactable>();
+            Interactable i = col.transform.root.GetComponent<Interactable>();
             if (i) {
                 return i;
             }
