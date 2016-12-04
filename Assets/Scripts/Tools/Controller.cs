@@ -107,7 +107,7 @@ public class Controller : MonoBehaviour {
 
     void Teleport() {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit)) {
+        if (Physics.Raycast(transform.position, curTool.transform.forward, out hit)) {
             if (hit.collider.CompareTag("Teleport")) {
                 transform.root.position = hit.point;
                 SteamVR_Fade.Start(Color.black, 0);
@@ -126,9 +126,10 @@ public class Controller : MonoBehaviour {
         line.enabled = false;
         if (isTeleporting) {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit)) {
+            if (Physics.Raycast(transform.position, curTool.transform.forward, out hit)) {
                 line.enabled = true;
-                line.SetPosition(1, new Vector3(0, 0, hit.distance));
+                float f = Mathf.Sqrt(2);
+                line.SetPosition(1, new Vector3(0, -f * hit.distance, f * hit.distance));
                 line.material.SetTextureScale("_MainTex", new Vector2(hit.distance * 4, 1));
             }
 
