@@ -7,8 +7,26 @@ public class WeldableObject : PhysicsObject {
     public List<WeldableObject> overlapping { get; private set; }
 
     public Color wieldTargetColor = Color.green * 0.2f;
+    public Color invalidColor = Color.red * 0.3f;
 
     protected Material material { get; private set; }
+
+    protected bool readyForWeld { get; private set; }
+
+    public bool isWeldTarget { get; private set; }
+    public bool isInvalid { get; private set; }
+
+    public Color emissionColor {
+        get {
+            if (isInvalid) {
+                return invalidColor;
+            } else if (isWeldTarget) {
+                return wieldTargetColor;
+            } else {
+                return Color.black;
+            }
+        }
+    }
 
 	// Use this for initialization
 	public override void Awake () {
@@ -18,6 +36,9 @@ public class WeldableObject : PhysicsObject {
         overlapping = new List<WeldableObject>();
         
         material = GetComponent<MeshRenderer>().material;
+        readyForWeld = false;
+        isWeldTarget = false;
+        isInvalid = false;
     }
 
     private void CreateTriggers() {
@@ -52,10 +73,12 @@ public class WeldableObject : PhysicsObject {
         if (held) {
             foreach (WeldableObject obj in overlapping) {
                 if (weldedObjects.IndexOf(obj) == -1) {
-                    obj.material.SetColor("_EmissionColor", wieldTargetColor);
+                    obj.isWeldTarget = true;
                 }
             }
         }
+
+        material.SetColor("_EmissionColor", emissionColor);
     }
 
     void OnTriggerEnter(Collider col) {
@@ -69,7 +92,7 @@ public class WeldableObject : PhysicsObject {
     void OnTriggerExit(Collider col) {
         WeldableObject obj = col.GetComponent<WeldableObject>();
         if (obj) {
-            obj.material.SetColor("_EmissionColor", Color.black);
+            obj.isWeldTarget = false;
             overlapping.Remove(obj);
             print("Exit");
         }
@@ -95,6 +118,7 @@ public class WeldableObject : PhysicsObject {
                 CreateTriggers();
             } else {
                 DestroyTriggers();
+                readyForWeld = true;
             }
 
             foreach (WeldableObject obj in GetComponentsInChildren<WeldableObject>()) {
@@ -127,19 +151,23 @@ public class WeldableObject : PhysicsObject {
         }
     }
 
-    public override void Pickup(int button) {
-        if (button == 0) {
-            Disconnect();
+    void PropagateWelding() {
+        if (!readyForWeld) {
+            return;
         }
 
-        PropagatePickup(button, true);
-    }
+        readyForWeld = false;
 
-    public override void Drop(int button) {
-        PropagatePickup(button, false);
+        foreach (WeldableObject obj in GetComponentsInChildren<WeldableObject>()) {
+            obj.PropagateWelding();
+        }
+
+        foreach (WeldableObject obj in weldedObjects) {
+            obj.PropagateWelding();
+        }
+
 
         if (!PausePlayManager.instance.running) {
-            
             foreach (WeldableObject obj in overlapping) {
                 if (weldedObjects.IndexOf(obj) == -1) {
                     FixedJoint wield = gameObject.AddComponent<FixedJoint>();
@@ -152,15 +180,31 @@ public class WeldableObject : PhysicsObject {
                     wield.connectedBody = obj.rigidbody;
                     wield.enableCollision = false;
                     wield.enablePreprocessing = false;
-                    
                 }
             }
         }
 
-        foreach (WeldableObject obj in overlapping) {
 
-            obj.material.SetColor("_EmissionColor", Color.black);
+
+        foreach (WeldableObject obj in overlapping) {
+            obj.isWeldTarget = false;
         }
+
+
+    }
+
+    public override void Pickup(int button) {
+        if (button == 0) {
+            Disconnect();
+        }
+
+        PropagatePickup(button, true);
+    }
+
+    public override void Drop(int button) {
+        PropagatePickup(button, false);
+
+        PropagateWelding();
 
         overlapping.Clear();
 
