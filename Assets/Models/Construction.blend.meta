@@ -16,6 +16,11 @@ ModelImporter:
     100016: Bars
     100018: Motor
     100020: Plate
+    100022: Generator
+    100024: Circle
+    100026: Clamp
+    100028: PenguinGenerator
+    100030: PenguinSlot
     400000: Axle
     400002: AxleBase
     400004: Beam1
@@ -27,6 +32,11 @@ ModelImporter:
     400016: Bars
     400018: Motor
     400020: Plate
+    400022: Generator
+    400024: Circle
+    400026: Clamp
+    400028: PenguinGenerator
+    400030: PenguinSlot
     2300000: Axle
     2300002: AxleBase
     2300004: Beam1
@@ -37,6 +47,11 @@ ModelImporter:
     2300014: Bars
     2300016: Motor
     2300018: Plate
+    2300020: Generator
+    2300022: Circle
+    2300024: Clamp
+    2300026: PenguinGenerator
+    2300028: PenguinSlot
     3300000: Axle
     3300002: AxleBase
     3300004: Beam1
@@ -47,6 +62,11 @@ ModelImporter:
     3300014: Bars
     3300016: Motor
     3300018: Plate
+    3300020: Generator
+    3300022: Circle
+    3300024: Clamp
+    3300026: PenguinGenerator
+    3300028: PenguinSlot
     4300000: Wheel
     4300002: Beam2
     4300004: Beam1
@@ -57,6 +77,11 @@ ModelImporter:
     4300014: Plate
     4300016: Bars
     4300018: Motor
+    4300020: Generator
+    4300022: Circle
+    4300024: Clamp
+    4300026: PenguinGenerator
+    4300028: PenguinSlot
     7400000: Default Take
     9500000: //RootNode
   materials:
