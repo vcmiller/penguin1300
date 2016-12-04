@@ -21,6 +21,10 @@ public class LateralManipulatorTool : Tool {
     public float framerate = 10;
     public float texRepeat = 2;
 
+    public float triggerOffRot;
+    public float triggerOnRot;
+    public Transform trigger;
+
     public override void Awake() {
         base.Awake();
         currentInteraction = new List<Interactable>();
@@ -67,8 +71,14 @@ public class LateralManipulatorTool : Tool {
         }
     }
 
+    void UpdateTrigger() {
+        trigger.localEulerAngles = new Vector3(0, Mathf.Lerp(triggerOffRot, triggerOnRot, controller.input.GetAxis(Valve.VR.EVRButtonId.k_EButton_Axis1).x), 0);
+    }
+
     // Update is called once per frame
     void Update() {
+        UpdateTrigger();
+
         if (PausePlayManager.instance.running) {
             Drop();
             return;

@@ -6,12 +6,24 @@ ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Armature
+    100004: button
+    100006: Grip_low
+    100008: root
+    100010: trigger
     400000: //RootNode
+    400002: Armature
+    400004: button
+    400006: Grip_low
+    400008: root
+    400010: trigger
     2300000: //RootNode
     3300000: //RootNode
     4300000: Manipulator
+    4300002: Grip_low
     7400000: Default Take
     9500000: //RootNode
+    13700000: Grip_low
   materials:
     importMaterials: 1
     materialName: 0
