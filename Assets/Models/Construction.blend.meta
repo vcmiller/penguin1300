@@ -21,6 +21,8 @@ ModelImporter:
     100026: Clamp
     100028: PenguinGenerator
     100030: PenguinSlot
+    100032: Anchor
+    100034: Weight
     400000: Axle
     400002: AxleBase
     400004: Beam1
@@ -37,6 +39,8 @@ ModelImporter:
     400026: Clamp
     400028: PenguinGenerator
     400030: PenguinSlot
+    400032: Anchor
+    400034: Weight
     2300000: Axle
     2300002: AxleBase
     2300004: Beam1
@@ -52,6 +56,8 @@ ModelImporter:
     2300024: Clamp
     2300026: PenguinGenerator
     2300028: PenguinSlot
+    2300030: Anchor
+    2300032: Weight
     3300000: Axle
     3300002: AxleBase
     3300004: Beam1
@@ -67,6 +73,8 @@ ModelImporter:
     3300024: Clamp
     3300026: PenguinGenerator
     3300028: PenguinSlot
+    3300030: Anchor
+    3300032: Weight
     4300000: Wheel
     4300002: Beam2
     4300004: Beam1
@@ -82,6 +90,8 @@ ModelImporter:
     4300024: Clamp
     4300026: PenguinGenerator
     4300028: PenguinSlot
+    4300030: Anchor
+    4300032: Weight
     7400000: Default Take
     9500000: //RootNode
   materials:
