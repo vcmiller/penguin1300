@@ -9,10 +9,22 @@ public class DraggableObject : PhysicsObject {
     public float dragSpeed = 50;
     public bool gravityWhenHeld = false;
 
+    public Quaternion previousRot { get; private set; }
+    public Quaternion currentRot { get; private set; }
+
+    public Vector3 angularVelocity {
+        get {
+            return (Quaternion.Inverse(previousRot) * currentRot).eulerAngles / Time.fixedDeltaTime;
+        }
+    }
+
     public override void FixedUpdate() {
         if (held) {
             rigidbody.velocity = (holder.position - transform.TransformPoint(attachPoint)) * dragSpeed;
             rigidbody.MoveRotation(holder.rotation * attachRot);
+
+            previousRot = currentRot;
+            currentRot = transform.rotation;
         }
     }
 
@@ -46,5 +58,6 @@ public class DraggableObject : PhysicsObject {
     public override void Drop(int button) {
         held = false;
         rigidbody.useGravity = true;
+        rigidbody.angularVelocity = angularVelocity;
     }
 }

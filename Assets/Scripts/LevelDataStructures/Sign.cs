@@ -15,7 +15,12 @@ public class Sign : MonoBehaviour {
     }
 
 	public void Go() {
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        if (sceneName != null) {
+
+            SteamVR_LoadLevel.Begin(sceneName);
+        } else {
+            SteamVR_LoadLevel.Begin(Game.instance.region.scene);
+        }
     }
 
 }

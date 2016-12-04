@@ -95,7 +95,7 @@ public class Controller : MonoBehaviour {
         }
 
         if (restartTimer > timeToRestart) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            SteamVR_LoadLevel.Begin(SceneManager.GetActiveScene().name);
             restartTimer = 0;
         }
 
@@ -110,6 +110,8 @@ public class Controller : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.forward, out hit)) {
             if (hit.collider.CompareTag("Teleport")) {
                 transform.root.position = hit.point;
+                SteamVR_Fade.Start(Color.black, 0);
+                SteamVR_Fade.Start(Color.clear, 1f);
             }else if (hit.collider.GetComponent<Sign>()) {
                 UseSign(hit.collider.GetComponent<Sign>());
             }

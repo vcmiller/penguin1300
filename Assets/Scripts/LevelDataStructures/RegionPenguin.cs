@@ -23,7 +23,7 @@ public class RegionPenguin : MonoBehaviour {
 	void Update () {
 
         if (GetComponent<DraggableObject>().held) {
-            SceneManager.LoadScene(scene);
+            SteamVR_LoadLevel.Begin(scene);
         }
     }
 

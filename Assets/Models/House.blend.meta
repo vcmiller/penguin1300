@@ -44,6 +44,46 @@ ModelImporter:
     100072: Floor_029
     100074: //RootNode
     100076: PenguinDetailed
+    100078: Board
+    100080: Couch
+    100082: Door1
+    100084: Door2
+    100086: DoorFrame
+    100088: Table
+    100090: Ceiling
+    100092: Ceiling_001
+    100094: Ceiling_002
+    100096: Ceiling_003
+    100098: Ceiling_004
+    100100: Ceiling_005
+    100102: Ceiling_006
+    100104: Ceiling_007
+    100106: Ceiling_008
+    100108: Ceiling_009
+    100110: Ceiling_010
+    100112: Ceiling_011
+    100114: Ceiling_012
+    100116: Ceiling_013
+    100118: Ceiling_014
+    100120: Ceiling_015
+    100122: Ceiling_016
+    100124: Ceiling_017
+    100126: Floor_030
+    100128: Floor_031
+    100130: Floor_032
+    100132: Floor_033
+    100134: Floor_034
+    100136: Floor_035
+    100138: Floor_036
+    100140: Floor_037
+    100142: FloorGarage
+    100144: GarageDoor
+    100146: PenguinToy
+    100148: TV
+    100150: WallGarage
+    100152: Window
+    100154: Torus
+    100156: Lamp
     400000: Cube
     400002: Cube_001
     400004: Cube_002
@@ -83,6 +123,46 @@ ModelImporter:
     400072: Floor_029
     400074: //RootNode
     400076: PenguinDetailed
+    400078: Board
+    400080: Couch
+    400082: Door1
+    400084: Door2
+    400086: DoorFrame
+    400088: Table
+    400090: Ceiling
+    400092: Ceiling_001
+    400094: Ceiling_002
+    400096: Ceiling_003
+    400098: Ceiling_004
+    400100: Ceiling_005
+    400102: Ceiling_006
+    400104: Ceiling_007
+    400106: Ceiling_008
+    400108: Ceiling_009
+    400110: Ceiling_010
+    400112: Ceiling_011
+    400114: Ceiling_012
+    400116: Ceiling_013
+    400118: Ceiling_014
+    400120: Ceiling_015
+    400122: Ceiling_016
+    400124: Ceiling_017
+    400126: Floor_030
+    400128: Floor_031
+    400130: Floor_032
+    400132: Floor_033
+    400134: Floor_034
+    400136: Floor_035
+    400138: Floor_036
+    400140: Floor_037
+    400142: FloorGarage
+    400144: GarageDoor
+    400146: PenguinToy
+    400148: TV
+    400150: WallGarage
+    400152: Window
+    400154: Torus
+    400156: Lamp
     2300000: Cube
     2300002: Cube_001
     2300004: Cube_002
@@ -121,6 +201,46 @@ ModelImporter:
     2300070: Floor_028
     2300072: Floor_029
     2300074: PenguinDetailed
+    2300076: Board
+    2300078: Couch
+    2300080: Door1
+    2300082: Door2
+    2300084: DoorFrame
+    2300086: Table
+    2300088: Ceiling
+    2300090: Ceiling_001
+    2300092: Ceiling_002
+    2300094: Ceiling_003
+    2300096: Ceiling_004
+    2300098: Ceiling_005
+    2300100: Ceiling_006
+    2300102: Ceiling_007
+    2300104: Ceiling_008
+    2300106: Ceiling_009
+    2300108: Ceiling_010
+    2300110: Ceiling_011
+    2300112: Ceiling_012
+    2300114: Ceiling_013
+    2300116: Ceiling_014
+    2300118: Ceiling_015
+    2300120: Ceiling_016
+    2300122: Ceiling_017
+    2300124: Floor_030
+    2300126: Floor_031
+    2300128: Floor_032
+    2300130: Floor_033
+    2300132: Floor_034
+    2300134: Floor_035
+    2300136: Floor_036
+    2300138: Floor_037
+    2300140: FloorGarage
+    2300142: GarageDoor
+    2300144: PenguinToy
+    2300146: TV
+    2300148: WallGarage
+    2300150: Window
+    2300152: Torus
+    2300154: Lamp
     3300000: Cube
     3300002: Cube_001
     3300004: Cube_002
@@ -159,6 +279,46 @@ ModelImporter:
     3300070: Floor_028
     3300072: Floor_029
     3300074: PenguinDetailed
+    3300076: Board
+    3300078: Couch
+    3300080: Door1
+    3300082: Door2
+    3300084: DoorFrame
+    3300086: Table
+    3300088: Ceiling
+    3300090: Ceiling_001
+    3300092: Ceiling_002
+    3300094: Ceiling_003
+    3300096: Ceiling_004
+    3300098: Ceiling_005
+    3300100: Ceiling_006
+    3300102: Ceiling_007
+    3300104: Ceiling_008
+    3300106: Ceiling_009
+    3300108: Ceiling_010
+    3300110: Ceiling_011
+    3300112: Ceiling_012
+    3300114: Ceiling_013
+    3300116: Ceiling_014
+    3300118: Ceiling_015
+    3300120: Ceiling_016
+    3300122: Ceiling_017
+    3300124: Floor_030
+    3300126: Floor_031
+    3300128: Floor_032
+    3300130: Floor_033
+    3300132: Floor_034
+    3300134: Floor_035
+    3300136: Floor_036
+    3300138: Floor_037
+    3300140: FloorGarage
+    3300142: GarageDoor
+    3300144: PenguinToy
+    3300146: TV
+    3300148: WallGarage
+    3300150: Window
+    3300152: Torus
+    3300154: Lamp
     4300000: Cube_003
     4300002: Cube_002
     4300004: Cylinder_002
@@ -197,6 +357,46 @@ ModelImporter:
     4300070: Cylinder
     4300072: Floor
     4300074: PenguinDetailed
+    4300076: Board
+    4300078: Table
+    4300080: Couch
+    4300082: Door1
+    4300084: Door2
+    4300086: DoorFrame
+    4300088: Ceiling_017
+    4300090: Ceiling_016
+    4300092: Ceiling_015
+    4300094: Ceiling_014
+    4300096: Ceiling_013
+    4300098: Ceiling_012
+    4300100: Ceiling_011
+    4300102: Ceiling_010
+    4300104: Ceiling_009
+    4300106: Ceiling_008
+    4300108: Ceiling_007
+    4300110: Ceiling_006
+    4300112: Ceiling_005
+    4300114: Ceiling_004
+    4300116: Ceiling_003
+    4300118: Ceiling_002
+    4300120: Ceiling_001
+    4300122: Ceiling
+    4300124: GarageDoor
+    4300126: Floor_037
+    4300128: Floor_036
+    4300130: Floor_035
+    4300132: Floor_034
+    4300134: Floor_033
+    4300136: Floor_032
+    4300138: Floor_031
+    4300140: Floor_030
+    4300142: FloorGarage
+    4300144: WallGarage
+    4300146: TV
+    4300148: Window
+    4300150: PenguinToy
+    4300152: Torus
+    4300154: Lamp
     7400000: Default Take
     9500000: //RootNode
   materials:

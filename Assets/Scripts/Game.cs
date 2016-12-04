@@ -50,16 +50,16 @@ public class Game : MonoBehaviour {
 	}
 
     public void ReloadLevel() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SteamVR_LoadLevel.Begin(SceneManager.GetActiveScene().name);
     }
 
     public void NextLevel() {
         Save();
-        SceneManager.LoadScene(region.NextLevel(SceneManager.GetActiveScene().name));
+        SteamVR_LoadLevel.Begin(region.NextLevel(SceneManager.GetActiveScene().name));
     }
 
     public void ExitLevel() {
-        SceneManager.LoadScene(parentScene);
+        SteamVR_LoadLevel.Begin(parentScene);
     }
 
 

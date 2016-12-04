@@ -25,7 +25,7 @@ public class Hand : Tool {
     }
 
     public Interactable getInteractible() {
-        foreach (Collider col in Physics.OverlapSphere(transform.position, .2f)) {
+        foreach (Collider col in Physics.OverlapSphere(transform.position, .1f)) {
             Interactable i = col.GetComponent<Interactable>();
             if (i) {
                 return i;
