@@ -129,7 +129,7 @@ public class Controller : MonoBehaviour {
             if (Physics.Raycast(transform.position, curTool.transform.forward, out hit)) {
                 line.enabled = true;
                 float f = Mathf.Sqrt(2);
-                line.SetPosition(1, new Vector3(0, -f * hit.distance, f * hit.distance));
+                line.SetPosition(1, new Vector3(0, hit.distance / -f, hit.distance / f));
                 line.material.SetTextureScale("_MainTex", new Vector2(hit.distance * 4, 1));
             }
 
