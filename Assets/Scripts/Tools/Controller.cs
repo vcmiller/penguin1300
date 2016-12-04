@@ -109,7 +109,9 @@ public class Controller : MonoBehaviour {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, curTool.transform.forward, out hit)) {
             if (hit.collider.CompareTag("Teleport")) {
-                transform.root.position = hit.point;
+                Vector3 headPos = Camera.main.transform.position - transform.root.position;
+                headPos.y = 0;
+                transform.root.position = hit.point - headPos;
                 SteamVR_Fade.Start(Color.black, 0);
                 SteamVR_Fade.Start(Color.clear, 1f);
             }else if (hit.collider.GetComponent<Sign>()) {
