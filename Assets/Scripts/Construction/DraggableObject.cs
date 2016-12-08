@@ -7,6 +7,7 @@ public class DraggableObject : PhysicsObject {
     public Quaternion attachRot { get; private set; }
 
     public float dragSpeed = 50;
+    public bool rotates = true;
     public bool gravityWhenHeld = false;
 
     public Quaternion previousRot { get; private set; }
@@ -21,7 +22,9 @@ public class DraggableObject : PhysicsObject {
     public override void FixedUpdate() {
         if (held) {
             rigidbody.velocity = (holder.position - transform.TransformPoint(attachPoint)) * dragSpeed;
-            rigidbody.MoveRotation(holder.rotation * attachRot);
+            if (rotates) {
+                rigidbody.MoveRotation(holder.rotation * attachRot);
+            }
 
             previousRot = currentRot;
             currentRot = transform.rotation;

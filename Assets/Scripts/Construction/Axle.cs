@@ -7,7 +7,12 @@ public class Axle : MonoBehaviour {
 
     public float power {
         get {
-            return axis.rigidbody.angularVelocity.magnitude / maxRot;
+            Rigidbody body = GetComponent<Rigidbody>();
+            if (body) {
+                return (axis.rigidbody.angularVelocity - body.angularVelocity).magnitude / maxRot;
+            } else {
+                return axis.rigidbody.angularVelocity.magnitude / maxRot;
+            }
         }
     }
 

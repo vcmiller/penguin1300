@@ -6,7 +6,7 @@ using System.IO;
 
 public class Game : MonoBehaviour {
     public static Game instance { get; private set; }
-    static bool loaded = false;
+    bool loaded = false;
 
     public string hubScene;
     public Region[] regions;
@@ -47,6 +47,7 @@ public class Game : MonoBehaviour {
             loaded = true;
         }
         instance = this;
+        print(Application.persistentDataPath);
 	}
 
     public void ReloadLevel() {
@@ -54,8 +55,10 @@ public class Game : MonoBehaviour {
     }
 
     public void NextLevel() {
+        string levelName = SceneManager.GetActiveScene().name;
+        region.MarkLevelComplete(levelName);
         Save();
-        SteamVR_LoadLevel.Begin(region.NextLevel(SceneManager.GetActiveScene().name));
+        SteamVR_LoadLevel.Begin(region.NextLevel(levelName));
     }
 
     public void ExitLevel() {
@@ -71,11 +74,13 @@ public class Game : MonoBehaviour {
     }
 
     void Load() {
-        if (File.Exists(Application.persistentDataPath + "/savedGames.gd")) {
+        if (File.Exists(Application.persistentDataPath + "/savedGame.gd")) {
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/savedGames.gd", FileMode.Open);
+            FileStream file = File.Open(Application.persistentDataPath + "/savedGame.gd", FileMode.Open);
             regions = (Region[])bf.Deserialize(file);
             file.Close();
+        }else {
+            print(name + ": no save file");
         }
     }
 }

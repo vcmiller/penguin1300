@@ -114,7 +114,13 @@ public class Controller : MonoBehaviour {
                 transform.root.position = hit.point - headPos;
                 SteamVR_Fade.Start(Color.black, 0);
                 SteamVR_Fade.Start(Color.clear, 1f);
-            }else if (hit.collider.GetComponent<Sign>()) {
+            } else if (hit.collider.CompareTag("Ladder")) {
+                Vector3 headPos = Camera.main.transform.position - transform.root.position;
+                headPos.y = 0;
+                transform.root.position = hit.collider.GetComponent<Ladder>().target - headPos;
+                SteamVR_Fade.Start(Color.black, 0);
+                SteamVR_Fade.Start(Color.clear, 1f);
+            } else if (hit.collider.GetComponent<Sign>()) {
                 UseSign(hit.collider.GetComponent<Sign>());
             }
         }

@@ -21,7 +21,6 @@ public class PenguinSlot : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	    if (resident && resident.held) {
-            Destroy(resident.GetComponent<FixedJoint>());
             resident = null;
         }
 
@@ -29,14 +28,12 @@ public class PenguinSlot : MonoBehaviour {
             DraggableObject d = getPotentialResident();
             if (d) {
                 resident = d;
-                resident.transform.rotation = transform.rotation;
-                resident.transform.position = transform.TransformPoint(offset);
-
-                FixedJoint joint = resident.gameObject.AddComponent<FixedJoint>();
-                joint.enableCollision = false;
-                joint.enablePreprocessing = false;
-                joint.connectedBody = GetComponent<Rigidbody>();
             }
+        } else {
+            resident.rigidbody.MoveRotation(transform.rotation);
+            resident.rigidbody.MovePosition(transform.TransformPoint(offset));
+            resident.rigidbody.velocity = Vector3.zero;
+            resident.rigidbody.angularVelocity = Vector3.zero;
         }
 	}
 

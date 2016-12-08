@@ -51,18 +51,35 @@ public class LateralManipulatorTool : Tool {
         }
     }
 
-    private void PropagateThroughWelds(WeldableObject obj) {
+    private bool PropagateThroughWelds(WeldableObject obj) {
+
         if (obj && !currentInteraction.Contains(obj)) {
+
+            if (!obj.canPickup) {
+                return false;
+            }
+
             currentInteraction.Add(obj);
 
+            bool b = obj.canPickup;
+
             foreach (WeldableObject other in obj.weldedObjects) {
-                PropagateThroughWelds(other.transform.root.GetComponent<WeldableObject>());
+                b &= PropagateThroughWelds(other.transform.root.GetComponent<WeldableObject>());
             }
 
             for (int i = 0; i < obj.transform.childCount; i++) {
-                PropagateThroughWelds(obj.transform.GetChild(i).GetComponent<WeldableObject>());
+                b &= PropagateThroughWelds(obj.transform.GetChild(i).GetComponent<WeldableObject>());
+            }
+
+            if (b) {
+                return true;
+            } else {
+                currentInteraction.Remove(obj);
+                return false;
             }
         }
+
+        return true;
     }
 
     private void Drop() {

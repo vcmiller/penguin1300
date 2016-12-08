@@ -19,9 +19,12 @@ public class Bin : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider col) {
-        if (col.GetComponent<PenguinLove>()) {
-            Destroy(col.GetComponent<PenguinLove>());
+        if (col.GetComponent<PenguinStand>() && col.GetComponent<PenguinStand>().enabled) {
             Destroy(col.GetComponent<PenguinStand>());
+            Destroy(col.GetComponent<PenguinFlap>());
+            Destroy(col.GetComponent<DraggableObject>());
+            Destroy(col.GetComponent<Rigidbody>());
+            col.transform.parent = transform;
 
             penguinCount++;
             if (penguinCount >= youMustProvideAdditionalPenguins) {

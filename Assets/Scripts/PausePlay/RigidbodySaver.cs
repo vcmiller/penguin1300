@@ -23,13 +23,14 @@ public class RigidbodySaver : StatusSaver {
         physicsObject.rigidbody.velocity = Vector3.zero;
         physicsObject.rigidbody.angularVelocity = Vector3.zero;
 
+        foreach (Collider collider in GetComponents<Collider>()) {
+            gameObject.layer = startLayer;
+        }
+
         if (modifyCollidersAndKinematic) {
             //physicsObject.rigidbody.constraints = constraints;
             physicsObject.rigidbody.isKinematic = false;
 
-            foreach (Collider collider in GetComponents<Collider>()) {
-                gameObject.layer = startLayer;
-            }
         }
     }
 
@@ -37,13 +38,17 @@ public class RigidbodySaver : StatusSaver {
         physicsObject.rigidbody.velocity = Vector3.zero;
         physicsObject.rigidbody.angularVelocity = Vector3.zero;
 
+        if (!GetComponent<DraggableObject>()) {
+            foreach (Collider collider in GetComponents<Collider>()) {
+                gameObject.layer = LayerMask.NameToLayer("PauseMode");
+            }
+        }
+        
+
         if (modifyCollidersAndKinematic) {
             //physicsObject.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             physicsObject.rigidbody.isKinematic = true;
 
-            foreach (Collider collider in GetComponents<Collider>()) {
-                gameObject.layer = LayerMask.NameToLayer("PauseMode");
-            }
         }
     }
 }

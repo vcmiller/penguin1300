@@ -11,10 +11,19 @@ public class Region {
     public string[] levels;
     public bool[] completions;
 
-    public string NextLevel(string level) {
+    public void MarkLevelComplete(string level) {
         int curIndex = System.Array.IndexOf(levels, level);
         completions[curIndex] = true;
 
+        string db = "";
+        foreach(bool c in completions) {
+            db += c + " "; 
+        }
+        Debug.Log(db); 
+    }
+
+    public string NextLevel(string level) {
+        int curIndex = System.Array.IndexOf(levels, level);
         int newIndex = curIndex + 1;
 
         if(newIndex < levels.Length) {
