@@ -10,12 +10,14 @@ public class PenguinFlap : MonoBehaviour {
     public ExpirationTimer deactivateFlap;
 
     public DraggableObject draggable { get; private set; }
+	LineRenderer lr;
 
 	// Use this for initialization
 	void Start () {
         activateFlap.Randomize();
 
         draggable = GetComponent<DraggableObject>();
+		lr = GetComponent<LineRenderer> ();
 	}
 	
 	// Update is called once per frame
@@ -24,7 +26,8 @@ public class PenguinFlap : MonoBehaviour {
             deactivateFlap.Set();
         }
 
-        if (!deactivateFlap.Expired || draggable.held || !GetComponent<PenguinStand>().grounded) {
+
+		if (!lr.enabled && (!deactivateFlap.Expired || draggable.held || !GetComponent<PenguinStand>().grounded)) {
             wingLeft.localEulerAngles = new Vector3(Mathf.Sin(Time.time * timescale) * 20 - 20, -90, 90);
             wingRight.localEulerAngles = new Vector3(-Mathf.Sin(Time.time * timescale) * 20 + 20, -90, -90);
         } else {
