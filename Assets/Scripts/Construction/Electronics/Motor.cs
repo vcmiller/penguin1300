@@ -10,10 +10,13 @@ public class Motor : MonoBehaviour {
     public bool freeSpin = true;
     public float velocityPerFlap = 360;
 
+    public AudioSource source;
+
 	// Use this for initialization
 	void Start () {
         ax = GetComponent<Axle>();
         ip = GetComponentInChildren<InputPort>();
+        source = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -25,8 +28,10 @@ public class Motor : MonoBehaviour {
             motor.force = forcePerFlap * ip.power;
             motor.targetVelocity = velocityPerFlap * ip.power;
             ax.joint.motor = motor;
+            source.volume = Mathf.Clamp01(ip.power);
         } else {
             ax.joint.useMotor = false;
+            source.volume = 0;
         }
         motor.freeSpin = freeSpin;
     }

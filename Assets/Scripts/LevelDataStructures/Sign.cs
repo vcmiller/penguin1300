@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(EditorAsSIGNment))]
 public class Sign : MonoBehaviour {
-    public string sceneName { get; private set; }
+    public string sceneName;
     public bool completed { get; private set; }
     public int index;
 

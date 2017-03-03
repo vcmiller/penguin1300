@@ -6,6 +6,8 @@ public class Bin : MonoBehaviour {
     public int youMustProvideAdditionalPenguins = 1;
     int penguinCount = 0;
 
+    public AudioClip traffickSound;
+
     Game g;
 
 	// Use this for initialization
@@ -27,6 +29,8 @@ public class Bin : MonoBehaviour {
             col.transform.parent = transform;
 
             penguinCount++;
+            AudioSource.PlayClipAtPoint(traffickSound, transform.position);
+
             if (penguinCount >= youMustProvideAdditionalPenguins) {
                 g.NextLevel();
             }

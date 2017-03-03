@@ -16,6 +16,8 @@ public class WeldableObject : PhysicsObject {
     public bool isWeldTarget { get; private set; }
     public bool isInvalid { get; private set; }
 
+    public AudioClip[] dropClips;
+
     public Color emissionColor {
         get {
             if (isInvalid) {
@@ -151,25 +153,28 @@ public class WeldableObject : PhysicsObject {
         }
     }
 
-    void PropagateWelding() {
+    bool PropagateWelding() {
+        bool b = false;
         if (!readyForWeld) {
-            return;
+            return false;
         }
 
         readyForWeld = false;
 
         foreach (WeldableObject obj in GetComponentsInChildren<WeldableObject>()) {
-            obj.PropagateWelding();
+            b |= obj.PropagateWelding();
         }
 
         foreach (WeldableObject obj in weldedObjects) {
-            obj.PropagateWelding();
+            b |= obj.PropagateWelding();
         }
 
 
         if (!PausePlayManager.instance.running) {
             foreach (WeldableObject obj in overlapping) {
                 if (weldedObjects.IndexOf(obj) == -1) {
+                    b = true;
+
                     FixedJoint wield = gameObject.AddComponent<FixedJoint>();
 
                     welds.Add(wield);
@@ -190,7 +195,7 @@ public class WeldableObject : PhysicsObject {
             obj.isWeldTarget = false;
         }
 
-
+        return b;
     }
 
     public override void Pickup(int button) {
@@ -203,10 +208,14 @@ public class WeldableObject : PhysicsObject {
 
     public override void Drop(int button) {
         PropagatePickup(button, false);
-
-        PropagateWelding();
+        if (PropagateWelding()) {
+            if (dropClips.Length > 0) {
+                AudioSource.PlayClipAtPoint(dropClips[Random.Range(0, dropClips.Length)], transform.position);
+            }
+        }
 
         overlapping.Clear();
+
 
     }
 }

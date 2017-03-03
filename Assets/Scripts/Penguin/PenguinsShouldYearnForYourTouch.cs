@@ -9,6 +9,7 @@ public class PenguinsShouldYearnForYourTouch : DraggableObject{
 
 	bool thrown;
 	public Vector3 initPos { get; private set; }
+    public AudioClip[] sounds;
 
 	LineRenderer lr;
 
@@ -21,6 +22,10 @@ public class PenguinsShouldYearnForYourTouch : DraggableObject{
 
 	public override void Pickup(int button){
 		held = true;
+
+        if (sounds.Length > 0) {
+            AudioSource.PlayClipAtPoint(sounds[Random.Range(0, sounds.Length)], transform.position);
+        }
 	}
 
 	public override void Drop(int button){
